@@ -37,14 +37,15 @@ class NewThingV1({{ cookiecutter.camel_name }}Message):
     def __str__(self):
         """Return a complete human-readable representation of the message."""
         return "New Thing: {thing}\nBy: {agent}\n".format(
-            thing=self.body["thing"]["name"], agent=self.body["agent"],
+            thing=self.body["thing"]["name"],
+            agent=self.agent_name,
         )
 
     @property
     def summary(self):
         """Return a summary of the message."""
         return '{agent} created thing "{name}" ({id})'.format(
-            agent=self.body["agent"],
+            agent=self.agent_name,
             name=self.body["thing"]["name"],
             id=self.body["thing"]["id"],
         )

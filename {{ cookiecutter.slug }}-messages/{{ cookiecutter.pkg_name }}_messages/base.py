@@ -15,7 +15,6 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 from fedora_messaging import message
-from fedora_messaging.schema_utils import user_avatar_url
 
 
 SCHEMA_URL = "http://fedoraproject.org/message-schema/"
@@ -40,23 +39,11 @@ class {{ cookiecutter.camel_name }}Message(message.Message):
 
     @property
     def app_name(self):
-        return "{{ cookiecutter.slug }}"
+        return "{{ cookiecutter.name }}"
 
     @property
     def app_icon(self):
         return "https://apps.fedoraproject.org/img/icons/{{ cookiecutter.slug }}.png"
-
-    @property
-    def agent(self):
-        return self.body.get("agent")
-
-    @property
-    def agent_avatar(self):
-        return user_avatar_url(self.agent)
-
-    @property
-    def usernames(self):
-        return [self.agent]
 
     @property
     def url(self):
@@ -64,3 +51,38 @@ class {{ cookiecutter.camel_name }}Message(message.Message):
             return self.body["thing"]["url"]
         except KeyError:
             return None
+
+    @property
+    def agent_name(self):
+        return self.body.get("agent")
+
+    @property
+    def usernames(self):
+        """List of users affected by the action that generated this message."""
+        return [self.agent_name]
+
+    @property
+    def groups(self):
+        """List of groups affected by the action that generated this message."""
+        group = self.body.get("group")
+        return [group] if group else []
+
+    @property
+    def packages(self):
+        """List of packages affected by the action that generated this message."""
+        return []
+
+    @property
+    def containers(self):
+        """List of containers affected by the action that generated this message."""
+        return []
+
+    @property
+    def modules(self):
+        """List of modules affected by the action that generated this message."""
+        return []
+
+    @property
+    def flatpaks(self):
+        """List of flatpaks affected by the action that generated this message."""
+        return []
