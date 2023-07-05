@@ -2,4 +2,10 @@
 #
 # SPDX-License-Identifier: LGPL-3.0-or-later
 
-from .thing import NewThingV1
+"""Utilities for the unit tests."""
+
+
+DUMMY_THING = {
+    "id": 1,
+    "name": "dummy",
+}

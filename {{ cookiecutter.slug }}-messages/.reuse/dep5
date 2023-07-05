@@ -1,0 +1,14 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: {{ cookiecutter.slug }}-messages
+Upstream-Contact: Fedora Infrastructure Team <infrastructure@lists.fedoraproject.org>
+Source: {{ cookiecutter.url }}
+
+# Sample paragraph, commented out:
+#
+# Files: src/*
+# Copyright: $YEAR $NAME <$CONTACT>
+# License: ...
+
+Files: README.md .github/renovate.json
+Copyright: {{ cookiecutter.year }} Contributors to the Fedora Project
+License: LGPL-3.0-or-later

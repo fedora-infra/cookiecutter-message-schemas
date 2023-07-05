@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: Contributors to the Fedora Project
+#
+# SPDX-License-Identifier: LGPL-3.0-or-later
+
+name: CI
+on: [push, pull_request, workflow_dispatch]
+jobs:
+
+  tests:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    container: fedorapython/fedora-python-tox:latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Mark the directory as safe for git
+        run: git config --global --add safe.directory $PWD
+
+      - name: Install RPM dependencies
+        run: |
+          dnf install -y gettext
+
+      - name: Install base Python dependencies
+        run: |
+          python3 -m pip install --upgrade tox
+
+      - name: execute tox
+        run: tox
