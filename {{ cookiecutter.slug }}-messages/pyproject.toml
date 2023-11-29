@@ -4,7 +4,7 @@
 
 [tool.poetry]
 name = "{{ cookiecutter.slug }}-messages"
-version = "1.0.1"
+version = "1.0.0"
 description = "A schema package for messages sent by {{ cookiecutter.name }}"
 authors = ["Fedora Infrastructure Team <infrastructure@lists.fedoraproject.org>"]
 license = "LGPL-3.0-or-later"

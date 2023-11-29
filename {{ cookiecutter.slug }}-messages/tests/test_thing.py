@@ -7,7 +7,7 @@
 import pytest
 
 from jsonschema import ValidationError
-from ..thing import NewThingV1
+from {{ cookiecutter.pkg_name }}_messages.thing import NewThingV1
 from .utils import DUMMY_THING
 
 
