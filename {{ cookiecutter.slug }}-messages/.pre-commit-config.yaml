@@ -23,11 +23,11 @@ repos:
 
   # Ruff
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.1.13
+    rev: v0.1.14
     hooks:
       - id: ruff
   # License headers
   - repo: https://github.com/fsfe/reuse-tool
-    rev: v3.0.0
+    rev: v3.0.1
     hooks:
       - id: reuse
