@@ -4,6 +4,5 @@
     "pkg_name": "{{ cookiecutter.slug|replace('-', '_') }}",
     "camel_name": "{{ cookiecutter.name|replace(' ', '') }}",
     "url": "http://github.com/fedora-infra/{{ cookiecutter.slug }}-messages",
-    "year": "{% now 'utc', '%Y' %}",
-    "_extensions": ["jinja2_time.TimeExtension"]
+    "year": "{% now 'utc', '%Y' %}"
 }
