@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: {{ cookiecutter.slug }}-messages
 Upstream-Contact: Fedora Infrastructure <admin@fedoraproject.org>
-Source: {{ cookiecutter.url }}
+Source: {{ cookiecutter.url }}-messages
 
 # Sample paragraph, commented out:
 #

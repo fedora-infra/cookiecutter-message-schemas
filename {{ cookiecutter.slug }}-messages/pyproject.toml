@@ -9,8 +9,8 @@ description = "A schema package for messages sent by {{ cookiecutter.name }}"
 authors = ["Fedora Infrastructure Team <infrastructure@lists.fedoraproject.org>"]
 license = "LGPL-3.0-or-later"
 readme = "README.md"
-homepage = "{{ cookiecutter.url }}"
-repository = "{{ cookiecutter.url }}"
+homepage = "{{ cookiecutter.url }}-messages"
+repository = "{{ cookiecutter.url }}-messages"
 keywords = ["fedora-messaging"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
