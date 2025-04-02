@@ -57,7 +57,7 @@ jobs:
         run: python3 -m build
 
       - name: Store the distribution packages
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: python-package-distributions
           path: dist/
@@ -65,7 +65,7 @@ jobs:
 
   publish-to-pypi:
     name: Publish to PyPI 🚀
-    if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref, 'rc')  # only publish to PyPI on final tag pushes
+    if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref, 'rc')  # only on final tag pushes
     needs:
       - build
     runs-on: ubuntu-latest
@@ -77,7 +77,7 @@ jobs:
 
     steps:
       - name: Download all the dists
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: python-package-distributions
           path: dist/
@@ -85,22 +85,63 @@ jobs:
       - name: Publish distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
 
+  rpms:
+    name: Build RPMs 📦
+    if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref, 'rc')  # only on final tag pushes
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    container: fedora:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install base dependencies
+        run: sudo dnf -y install git rpm-build
+      - name: Mark the working directory as safe for Git
+        run: git config --global --add safe.directory $PWD
+      - name: Download all the dists
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: .
+      - name: Build RPMs
+        run: |
+          mkdir rpmbuild
+          sudo dnf -y builddep *.spec; \
+          exitcode=11; while [ $exitcode -eq 11 ]; do \
+            rpmbuild -D "_topdir $(pwd)/rpmbuild" -D "_sourcedir $(pwd)" -D "_srcrpmdir $(pwd)/RPMS" -bd $(pwd)/*.spec && exitcode=$? || exitcode=$? ; \
+            sudo dnf -y builddep RPMS/*src.rpm; \
+          done
+          rm -f RPMS/*.buildreqs.nosrc.rpm
+          rpmbuild -D "_topdir $(pwd)/rpmbuild" -D "_sourcedir $(pwd)" -D "_rpmdir $(pwd)/RPMS" -D "_srcrpmdir $(pwd)/RPMS" -D "_rpmfilename %{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}.rpm" -ba *.spec
+          ls -al . RPMS
+      - name: Store the RPMs
+        uses: actions/upload-artifact@v4
+        with:
+          name: rpms
+          path: RPMS
+
 
   github-release:
     name: Create a GitHub Release 📢
     needs:
       - publish-to-pypi
+      - rpms
     runs-on: ubuntu-latest
     permissions:
       contents: write  # IMPORTANT: mandatory for making GitHub Releases
       id-token: write  # IMPORTANT: mandatory for sigstore
 
     steps:
-      - name: Download all the dists
-        uses: actions/download-artifact@v3
+      - name: Download the python package
+        uses: actions/download-artifact@v4
         with:
           name: python-package-distributions
           path: dist/
+      - name: Download the RPMs
+        uses: actions/download-artifact@v4
+        with:
+          name: rpms
+          path: rpms/
 
       - name: Sign the dists with Sigstore
         uses: sigstore/gh-action-sigstore-python@v3.0.0
@@ -110,8 +151,10 @@ jobs:
             ./dist/*.whl
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          files: dist/*
+          files: |
+            dist/*
+            rpms/*
           fail_on_unmatched_files: true
           generate_release_notes: true
