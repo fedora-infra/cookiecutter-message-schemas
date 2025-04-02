@@ -11,6 +11,7 @@ license = "LGPL-3.0-or-later"
 readme = "README.md"
 homepage = "{{ cookiecutter.url }}-messages"
 repository = "{{ cookiecutter.url }}-messages"
+documentation = "https://{{ cookiecutter.slug }}-messages.readthedocs.io"
 keywords = ["fedora-messaging"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -24,6 +25,9 @@ classifiers = [
     "Topic :: Communications",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+include = [
+    { path = "docs", format = "sdist" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.8.10"
@@ -36,6 +40,11 @@ pytest-cov = ">=3.0.0"
 coverage = {extras = ["toml"], version = ">=7.0.0"}
 ruff = ">=0.0.253"
 reuse = ">=1.1.0"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = ">=4.0"
+myst-parser = ">=0.16"
+sphinxcontrib-napoleon = "*"
 
 [tool.poetry.plugins."fedora.messages"]
 "{{ cookiecutter.pkg_name }}.new" = "{{ cookiecutter.pkg_name }}_messages.thing:NewThingV1"

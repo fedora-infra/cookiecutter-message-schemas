@@ -7,3 +7,4 @@ See the [detailed documentation](https://fedora-messaging.readthedocs.io/en/late
 ![PyPI](https://img.shields.io/pypi/v/{{ cookiecutter.slug }}-messages.svg)
 ![Supported Python versions](https://img.shields.io/pypi/pyversions/{{ cookiecutter.slug }}-messages.svg)
 ![Build status]({{ cookiecutter.url }}-messages/actions/workflows/main.yml/badge.svg?branch=main)
+![Documentation](https://readthedocs.org/projects/{{ cookiecutter.slug }}-messages/badge/?version=latest)
