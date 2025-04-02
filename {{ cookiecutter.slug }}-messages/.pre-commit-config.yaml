@@ -26,6 +26,7 @@ repos:
     rev: v0.11.2
     hooks:
       - id: ruff
+
   # License headers
   - repo: https://github.com/fsfe/reuse-tool
     rev: v5.0.2
