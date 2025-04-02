@@ -4,27 +4,35 @@
 ---
 
 name: Test & Build
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v*
+  pull_request:
+    branches:
+      - main
+
+
 jobs:
 
   tests:
+    name: Run the tests
     runs-on: ubuntu-latest
     container: fedorapython/fedora-python-tox:latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Mark the directory as safe for git
+      - name: Install dependencies
+        run: |
+          dnf install -y pre-commit git libpq-devel krb5-devel
+          pip install poetry
+
+      - name: Mark the working directory as safe for Git
         run: git config --global --add safe.directory $PWD
 
-      - name: Install RPM dependencies
-        run: |
-          dnf install -y gettext
-
-      - name: Install base Python dependencies
-        run: |
-          python3 -m pip install --upgrade tox poetry
-
-      - name: execute tox
+      - name: Run the tests
         run: tox
 
   # https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
