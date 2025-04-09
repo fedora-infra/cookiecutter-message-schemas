@@ -2,7 +2,9 @@
 
 A schema package for [{{ cookiecutter.name }}]({{ cookiecutter.url }}).
 
-See the [detailed documentation](https://fedora-messaging.readthedocs.io/en/latest/messages.html) on packaging your schemas.
+Documentation is available [on Readthedocs](https://{{ cookiecutter.slug }}-messages.readthedocs.io).
+
+See the [detailed documentation](https://fedora-messaging.readthedocs.io/en/stable/user-guide/messages.html) on writing and packaging your schemas.
 
 ![PyPI](https://img.shields.io/pypi/v/{{ cookiecutter.slug }}-messages.svg)
 ![Supported Python versions](https://img.shields.io/pypi/pyversions/{{ cookiecutter.slug }}-messages.svg)
