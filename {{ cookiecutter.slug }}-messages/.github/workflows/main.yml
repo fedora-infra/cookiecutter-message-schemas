@@ -57,7 +57,7 @@ jobs:
         run: python3 -m build
 
       - name: Store the distribution packages
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: python-package-distributions
           path: dist/
@@ -115,7 +115,7 @@ jobs:
           rpmbuild -D "_topdir $(pwd)/rpmbuild" -D "_sourcedir $(pwd)" -D "_rpmdir $(pwd)/RPMS" -D "_srcrpmdir $(pwd)/RPMS" -D "_rpmfilename %{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}.rpm" -ba *.spec
           ls -al . RPMS
       - name: Store the RPMs
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: rpms
           path: RPMS
